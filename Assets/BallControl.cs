@@ -21,6 +21,8 @@ public class BallControl : MonoBehaviour {
             float velY = rb2D.velocity.y;
             velY = velY / 2 + collision.collider.GetComponent<Rigidbody2D>().velocity.y / 3;// when ball hits paddle the velocity of paddle will affect ball
             rb2D.velocity = new Vector2(rb2D.velocity.x, velY);
+            GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+            GetComponent<AudioSource>().Play();
         }
     }
 

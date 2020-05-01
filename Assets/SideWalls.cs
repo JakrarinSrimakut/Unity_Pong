@@ -14,8 +14,8 @@ public class SideWalls : MonoBehaviour {
     {
         if(collision.name == "Ball")
         {
-            Debug.Log("Test");
             string wallName = tr2D.name;
+            GetComponent<AudioSource>().Play();
             GameManager.score(wallName);
             collision.gameObject.SendMessage("ResetBall");
         }
