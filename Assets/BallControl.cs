@@ -5,13 +5,35 @@ using UnityEngine;
 public class BallControl : MonoBehaviour {
 
     public float ballSpeed = 80;
-
+    private float ballVelX = 16;
     private Rigidbody2D rb2D;
     private Transform tr2D;
 
     // Use this for initialization
     void Start () {
+        rb2D = GetComponent<Rigidbody2D>();
+        tr2D = GetComponent<Transform>();
         Invoke("GoBall", 2.0f);
+    }
+
+    void Update()
+    {
+        float xVel = rb2D.velocity.x;
+        //Debug.Log("Velocity: " + xVel);//to find velocity b/c ballspeed isn't the ball spd but val for addForce that produce velocity
+        //force velocity speed of 20 if between 15 and -15. Don't include zero when ball isn't moving at game start.
+        if (xVel < 15 && xVel > -15 && xVel != 0)//
+        {
+            if(xVel > 0)
+            {
+                rb2D.velocity = new Vector2(ballVelX,rb2D.velocity.y);
+            }
+            else{
+
+                rb2D.velocity = new Vector2(-ballVelX, rb2D.velocity.y);
+            }
+            //Debug.Log("Velocity before " + xVel);
+            //Debug.Log("Velocity after " + rb2D.velocity.x);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -28,8 +50,6 @@ public class BallControl : MonoBehaviour {
 
     private void ResetBall()
     {
-        rb2D = GetComponent<Rigidbody2D>();
-        tr2D = GetComponent<Transform>();
 
         rb2D.velocity = Vector2.zero;
         tr2D.position = new Vector2(0, 0);
@@ -40,7 +60,6 @@ public class BallControl : MonoBehaviour {
 
     private void GoBall()
     {
-        rb2D = GetComponent<Rigidbody2D>();
         int ranNum = Random.Range(0, 2);
         if (ranNum < 0.5)
         {
